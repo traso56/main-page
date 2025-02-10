@@ -15,6 +15,7 @@
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server\""
   },
   "dependencies": {
+    "@open-wc/dev-server-hmr": "^0.2.0",
     "lit": "^3.1.4"
   },
   "devDependencies": {
