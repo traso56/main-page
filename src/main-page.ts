@@ -1,11 +1,19 @@
+import { produce } from 'immer';
 import { LitElement, html, css } from 'lit';
-import { property, customElement } from 'lit/decorators.js';
+import { property, customElement, state } from 'lit/decorators.js';
 
 const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
 
 @customElement('main-page')
 export class MainPage extends LitElement {
   @property({ type: String }) header = 'My app';
+
+  @property({ type: Number }) counter = 0;
+
+  @state() private _inputfieldValue = {
+    type: '',
+    reflect: true,
+  };
 
   static styles = css`
     :host {
@@ -65,6 +73,26 @@ export class MainPage extends LitElement {
         >
           Code examples
         </a>
+        <p>
+          ${this.counter}
+          <button
+            @click=${() => {
+              this.counter += 1;
+            }}
+          >
+            increment
+          </button>
+        </p>
+        <input
+          type="text"
+          .value=${this._inputfieldValue.type}
+          @input=${(e: Event) => {
+            this._inputfieldValue = produce(this._inputfieldValue, draft => {
+              draft.type = (e.target as HTMLInputElement).value;
+            });
+          }}
+        />
+        ${this._inputfieldValue.type}
       </main>
 
       <p class="app-footer">
